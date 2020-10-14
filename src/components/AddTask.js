@@ -2,6 +2,12 @@ import React from 'react'
 import { render } from 'react-dom'
 
 class AddTask extends React.Component {
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+        this.props.onAddTask(this.newTask.value)
+    }
+
     render(){
         return(
             <section>

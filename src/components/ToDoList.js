@@ -1,29 +1,44 @@
 import React from 'react'
+import ToDo from './ToDo'
 
 
 // <> signifie React.Fragment
-const ToDoList = () => (
-    <>
-        <h1 className="m-3">Liste de tâches</h1>
-        <ul className="list-group m-3">
-            <li className="list-group-item d-flex align-tiems-center">
-                Ranger la vaisselle
-                <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-            </li>
-            <li className="list-group-item d-flex align-tiems-center">
-                Répondre à un appel d'offre
-                <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-            </li>
-            <li className="list-group-item d-flex align-tiems-center">
-                Signer contrat
-                <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-            </li>
-            <li className="list-group-item d-flex align-tiems-center">
-                Ranger le salon
-                <button className="btn btn-sm ml-auto btn-outline-success">&#x2713;</button>
-            </li>
-        </ul>
-    </>
-)
+const ToDoList = ({tasks, match, onToggleCompleted}) => {
+
+    let filteredTasks
+
+    switch (match.params.filter) {
+        case 'completed':
+            filteredTasks = tasks.filter(task => task.completed)
+            break;
+    
+        default:
+            filteredTasks = tasks
+            break;
+    }
+
+    if(filteredTasks.length === 0){
+        return (
+            <>
+                <h1 className="m-3">Liste de tâches</h1>
+                <ul className="list-group m-3">
+                    <li className="list-group-item d-flex align-tiems-center">Aucune tâche à afficher</li>
+                </ul>
+            </>
+        )
+    } else {
+        return (
+            <>
+                <h1 className="m-3">Liste de tâches</h1>
+                <ul className="list-group m-3">
+                    {
+                        filteredTasks.map((task) => <ToDo task={task} key={task.id} onToggleCompleted={onToggleCompleted}/>)
+                    }
+                </ul>
+            </>
+        )
+    }
+    
+}
 
 export default ToDoList
